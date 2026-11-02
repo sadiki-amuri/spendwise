@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendWise Dashboard Shell</title>
+    <!-- Custom Typography Pairing -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main Outer Structure via CSS Grid -->
+    <div class="dashboard-grid-layout">
+        
+        <!-- Sidebar Navigation Menu -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>SpendWise</h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active"> Dashboard</a>
+                <a href="#" class="menu-item"> Expenses</a>
+                <a href="#" class="menu-item">Analytics</a>
+                <a href="#" class="menu-item"> Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Top Header Bar -->
+        <header id="main-header">
+            <div class="header-title">
+                <h1>Financial Dashboard Overview</h1>
+                <p>Track your budget allocations and limits in real-time.</p>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Workspace -->
+        <main class="dashboard-view">
+            <h2 class="section-title">Category Allocations</h2>
+            
+            <!-- Category Cards Grid -->
+            <div class="category-cards-grid">
+                <!-- Card 1: Food (tabindex allows keyboard focus state) -->
+                <div class="category-card" tabindex="0">
+                    <div class="card-icon"></div>
+                    <h3>Food</h3>
+                    <p class="amount">-$320.00</p>
+                    <span class="limit-tag">Limit: $500</span>
+                </div>
+
+                <!-- Card 2: Transport -->
+                <div class="category-card" tabindex="0">
+                    <div class="card-icon"></div>
+                    <h3>Transport</h3>
+                    <p class="amount">-$150.00</p>
+                    <span class="limit-tag">Limit: $200</span>
+                </div>
+
+                <!-- Card 3: Rent -->
+                <div class="category-card" tabindex="0">
+                    <div class="card-icon"></div>
+                    <h3>Rent</h3>
+                    <p class="amount">-$1,200.00</p>
+                    <span class="limit-tag">Limit: $1200</span>
+                </div>
+
+                <!-- Card 4: Entertainment -->
+                <div class="category-card" tabindex="0">
+                    <div class="card-icon"></div>
+                    <h3>Entertainment</h3>
+                    <p class="amount">-$85.00</p>
+                    <span class="limit-tag">Limit: $150</span>
+                </div>
+
+                <!-- Card 5: Savings -->
+                <div class="category-card savings-highlight" tabindex="0">
+                    <div class="card-icon"></div>
+                    <h3>Savings</h3>
+                    <p class="amount positive">+$450.00</p>
+                    <span class="limit-tag">Goal: $1000</span>
+                </div>
+
+                <!-- Card 6: Utilities -->
+                <div class="category-card" tabindex="0">
+                    <div class="card-icon"></div>
+                    <h3>Utilities</h3>
+                    <p class="amount">-$180.00</p>
+                    <span class="limit-tag">Limit: $250</span>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html>
 
