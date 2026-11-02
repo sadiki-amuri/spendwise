@@ -11,7 +11,7 @@ SpendWise is an interactive, personal budget and expense tracking web applicatio
 * **Netlify:** Continuous deployment and cloud hosting infrastructure.
 
 ## GitHub Repository Information
-* **Repository Link:** [https://github.com](https://github.com)  *(Ensure this matches your actual final repo name)*
+* **Repository Link:** [https://github.com](https://github.com) 
 * **Branch:** main
 
 ## Live Netlify Website URL
