@@ -3,97 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpendWise Dashboard Shell</title>
-    <!-- Custom Typography Pairing -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <title>SpendWise - Personal Budget & Expense Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Main Outer Structure via CSS Grid -->
-    <div class="dashboard-grid-layout">
-        
-        <!-- Sidebar Navigation Menu -->
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <h2>SpendWise</h2>
-            </div>
-            <nav class="sidebar-menu">
-                <a href="#" class="menu-item active"> Dashboard</a>
-                <a href="#" class="menu-item"> Expenses</a>
-                <a href="#" class="menu-item">Analytics</a>
-                <a href="#" class="menu-item"> Settings</a>
-            </nav>
-        </aside>
-
-        <!-- Top Header Bar -->
-        <header id="main-header">
-            <div class="header-title">
-                <h1>Financial Dashboard Overview</h1>
-                <p>Track your budget allocations and limits in real-time.</p>
-            </div>
+    <div class="container">
+        <header>
+            <h1>SpendWise 💰</h1>
+            <p>Take control of your personal finances dynamically</p>
         </header>
 
-        <!-- Main Dashboard Workspace -->
-        <main class="dashboard-view">
-            <h2 class="section-title">Category Allocations</h2>
-            
-            <!-- Category Cards Grid -->
-            <div class="category-cards-grid">
-                <!-- Card 1: Food (tabindex allows keyboard focus state) -->
-                <div class="category-card" tabindex="0">
-                    <div class="card-icon"></div>
-                    <h3>Food</h3>
-                    <p class="amount">-$320.00</p>
-                    <span class="limit-tag">Limit: $500</span>
-                </div>
-
-                <!-- Card 2: Transport -->
-                <div class="category-card" tabindex="0">
-                    <div class="card-icon"></div>
-                    <h3>Transport</h3>
-                    <p class="amount">-$150.00</p>
-                    <span class="limit-tag">Limit: $200</span>
-                </div>
-
-                <!-- Card 3: Rent -->
-                <div class="category-card" tabindex="0">
-                    <div class="card-icon"></div>
-                    <h3>Rent</h3>
-                    <p class="amount">-$1,200.00</p>
-                    <span class="limit-tag">Limit: $1200</span>
-                </div>
-
-                <!-- Card 4: Entertainment -->
-                <div class="category-card" tabindex="0">
-                    <div class="card-icon"></div>
-                    <h3>Entertainment</h3>
-                    <p class="amount">-$85.00</p>
-                    <span class="limit-tag">Limit: $150</span>
-                </div>
-
-                <!-- Card 5: Savings -->
-                <div class="category-card savings-highlight" tabindex="0">
-                    <div class="card-icon"></div>
-                    <h3>Savings</h3>
-                    <p class="amount positive">+$450.00</p>
-                    <span class="limit-tag">Goal: $1000</span>
-                </div>
-
-                <!-- Card 6: Utilities -->
-                <div class="category-card" tabindex="0">
-                    <div class="card-icon"></div>
-                    <h3>Utilities</h3>
-                    <p class="amount">-$180.00</p>
-                    <span class="limit-tag">Limit: $250</span>
-                </div>
+        
+        <div class="dashboard-grid">
+            <div class="card summary-card budget-box">
+                <h3>Total Budget</h3>
+                <p id="total-budget">$0.00</p>
             </div>
-        </main>
+            <div class="card summary-card expenses-box">
+                <h3>Total Expenses</h3>
+                <p id="total-expenses">$0.00</p>
+            </div>
+            <div class="card summary-card balance-box">
+                <h3>Current Balance</h3>
+                <p id="current-balance">$0.00</p>
+            </div>
+        </div>
 
+        <div class="main-content">
+            <!-- Setup & Input Section -->
+            <section class="forms-column">
+                <div class="card">
+                    <h2>Set Monthly Budget</h2>
+                    <form id="budget-form">
+                        <div class="form-group">
+                            <label for="budget-input">Enter Budget Amount ($):</label>
+                            <input type="number" id="budget-input" min="0" step="0.01" placeholder="e.g. 3000" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Budget</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>Add New Expense</h2>
+                    <form id="expense-form">
+                        <div class="form-group">
+                            <label for="expense-title">Expense Description:</label>
+                            <input type="text" id="expense-title" placeholder="e.g. Groceries, Rent, Gas" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-amount">Amount ($):</label>
+                            <input type="number" id="expense-amount" min="0.01" step="0.01" placeholder="e.g. 45.50" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Record</button>
+                    </form>
+                </div>
+            </section>
+
+
+            <section class="history-column">
+                <div class="card history-card">
+                    <h2>Expense Records Ledger</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expense-list">
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>© 2026 SpendWise Tracker by Sadiki Amuri | Production Deployment Verification Build</p>
+        </footer>
     </div>
 
+    <script src="script.js" defer></script>
 </body>
 </html>
-
