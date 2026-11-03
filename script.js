@@ -1,188 +1,106 @@
-:root {
-    --bg-color: #f4f6f9;
-    --card-bg: #ffffff;
-    --text-main: #2d3748;
-    --text-muted: #718096;
-    --primary: #4a6cf7;
-    --success: #2ecc71;
-    --danger: #e74c3c;
-    --border-color: #e2e8f0;
-}
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+let budget = parseFloat(localStorage.getItem('spendwise_budget')) || 0;
+let expenses = JSON.parse(localStorage.getItem('spendwise_expenses')) || [];
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    padding: 20px;
-    line-height: 1.6;
-}
+const budgetForm = document.getElementById('budget-form');
+const budgetInput = document.getElementById('budget-input');
+const expenseForm = document.getElementById('expense-form');
+const expenseTitle = document.getElementById('expense-title');
+const expenseAmount = document.getElementById('expense-amount');
+const expenseList = document.getElementById('expense-list');
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-}
+const totalBudgetDisplay = document.getElementById('total-budget');
+const totalExpensesDisplay = document.getElementById('total-expenses');
+const currentBalanceDisplay = document.getElementById('current-balance');
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
+function updateDashboardSummary() {
+    
+    const totalExpenses = expenses.reduce((sum, item) => sum + item.amount, 0);
+    const currentBalance = budget - totalExpenses;
 
-header h1 {
-    font-size: 2.5rem;
-    color: var(--primary);
-    margin-bottom: 5px;
-}
+    
+    totalBudgetDisplay.textContent = `$${budget.toFixed(2)}`;
+    totalExpensesDisplay.textContent = `$${totalExpenses.toFixed(2)}`;
+    currentBalanceDisplay.textContent = `$${currentBalance.toFixed(2)}`;
 
-header p {
-    color: var(--text-muted);
-}
-
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.card {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
-    margin-bottom: 20px;
-}
-
-.summary-card {
-    text-align: center;
-    padding: 25px;
-}
-
-.summary-card h3 {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.summary-card p {
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-.budget-box p { color: var(--primary); }
-.expenses-box p { color: var(--danger); }
-.balance-box p { color: var(--success); }
-
-.main-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-@media (min-width: 768px) {
-    .main-content {
-        grid-template-columns: 4fr 6fr;
+    
+    if (currentBalance < 0) {
+        currentBalanceDisplay.style.color = '#e74c3c'; 
+    } else {
+        currentBalanceDisplay.style.color = '#2ecc71';
     }
+
+    
+    localStorage.setItem('spendwise_budget', budget);
+    localStorage.setItem('spendwise_expenses', JSON.stringify(expenses));
+    
+    renderExpenseRecordsTable();
 }
 
-h2 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    border-bottom: 2px solid var(--bg-color);
-    padding-bottom: 8px;
+ 
+function renderExpenseRecordsTable() {
+    expenseList.innerHTML = '';
+    
+    if (expenses.length === 0) {
+        expenseList.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#718096;">No expense items recorded yet.</td></tr>`;
+        return;
+    }
+
+    expenses.forEach((item) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${escapeHTML(item.title)}</td>
+            <td>$${item.amount.toFixed(2)}</td>
+            <td><button class="btn btn-danger" onclick="deleteExpenseEntry('${item.id}')">Delete</button></td>
+        `;
+        expenseList.appendChild(row);
+    });
 }
 
-/* Form Styles */
-.form-group {
-    margin-bottom: 15px;
+budgetForm.addEventListener('submit', function(event) {
+    event.preventDefault(); 
+    const value = parseFloat(budgetInput.value);
+    if (!isNaN(value) && value >= 0) {
+        budget = value;
+        updateDashboardSummary();
+        budgetInput.value = '';
+    }
+});
+
+expenseForm.addEventListener('submit', function(event) {
+    event.preventDefault(); 
+    const titleText = expenseTitle.value.trim();
+    const amountVal = parseFloat(expenseAmount.value);
+
+    if (titleText && !isNaN(amountVal) && amountVal > 0) {
+        const newExpense = {
+            id: Date.now().toString(),
+            title: titleText,
+            amount: amountVal
+        };
+        expenses.push(newExpense);
+        updateDashboardSummary();
+        
+        
+        expenseTitle.value = '';
+        expenseAmount.value = '';
+    }
+});
+
+
+window.deleteExpenseEntry = function(id) {
+    expenses = expenses.filter(entry => entry.id !== id);
+    updateDashboardSummary();
+};
+
+
+function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+    );
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
 
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-.form-group input:focus {
-    border-color: var(--primary);
-}
-
-/* Button UI Components */
-.btn {
-    display: inline-block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.btn-primary { background-color: var(--primary); }
-.btn-primary:hover { background-color: #3554d1; }
-.btn-success { background-color: var(--success); }
-.btn-success:hover { background-color: #27ae60; }
-.btn-danger {
-    padding: 4px 8px;
-    font-size: 0.85rem;
-    background-color: var(--danger);
-    width: auto;
-}
-.btn-danger:hover { background-color: #c0392b; }
-
-
-.table-container {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-th {
-    background-color: var(--bg-color);
-    font-weight: 600;
-}
-
-tr:hover {
-    background-color: #fafbfc;
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px 0;
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    border-top: 1px solid var(--border-color);
-}
-
+document.addEventListener('DOMContentLoaded', () => {
+    updateDashboardSummary();
+});
