@@ -15,7 +15,7 @@ SpendWise is an interactive, personal budget and expense tracking web applicatio
 * **Branch:** main
 
 ## Live Netlify Website URL
-* **Live Site Link:** [https://netlify.app](https://netlify.app)
+* **Live Site Link:**https://sadiki-spendwise.netlify.app/**
 
 ## Deployment Process Summary
 1. **Repository Setup:** Initialized a local Git repository, committed all SpendWise project files (`index.html`, `style.css`, `script.js`), and pushed them to a public GitHub repository.
